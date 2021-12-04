@@ -8,10 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "messages/get/username", value = "/messages/get/*")
 public class MessagesRoute extends HttpServlet {
@@ -71,8 +69,6 @@ public class MessagesRoute extends HttpServlet {
 
     JsonObject res = messagesController.fetchMessages(username, receiver);
     out.print(res);
-
-//    out.print("{\"messages for\": \""+ receiver +"\"}");
   }
 
   @Override
