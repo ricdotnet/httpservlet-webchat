@@ -55,8 +55,8 @@ new Vue({
         this.fetchMessages(receiver).then(() => {
           this.getMessages();
         })
-        return;
       }
+      this.scrollDown();
     },
     connectWebsocket() {
       this.ws = new WebSocket(`ws://localhost:8080/cw1/chat/${this.sender}`);
@@ -99,7 +99,7 @@ new Vue({
             const messagesArea = document.getElementById('messagesArea');
             messagesArea.scrollTop = messagesArea.scrollHeight;
 
-            document.title = 'New message...'
+            // document.title = 'New message...'
           });
         }
 
@@ -160,10 +160,7 @@ new Vue({
 
         this.message = ''; // reset message box
 
-        setTimeout(() => {
-          const messagesArea = document.getElementById('messagesArea');
-          messagesArea.scrollTop = messagesArea.scrollHeight;
-        }, 200)
+        this.scrollDown();
       }
 
       if (event === 'close') {
@@ -230,6 +227,12 @@ new Vue({
         inbox.messages.push(m)
       })
       inbox.messages.sort((first, second) => first.id - second.id)
+    },
+    scrollDown() {
+      setTimeout(() => {
+        const messagesArea = document.getElementById('messagesArea');
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+      }, 200)
     }
   }
 })
