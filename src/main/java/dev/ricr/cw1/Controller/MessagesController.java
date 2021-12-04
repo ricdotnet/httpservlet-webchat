@@ -59,14 +59,15 @@ public class MessagesController {
       statement.setString(2, receiver);
       statement.execute();
 
-      ResultSet resultSetMine = statement.getResultSet();
+      ResultSet resultSet = statement.getResultSet();
 
-      while (resultSetMine.next()) {
+      while (resultSet.next()) {
         messagesArray.add(Json.createObjectBuilder()
-            .add("id", resultSetMine.getInt("id"))
-            .add("sender", resultSetMine.getString("sender"))
-            .add("receiver", resultSetMine.getString("receiver"))
-            .add("message", resultSetMine.getString("message")));
+            .add("id", resultSet.getInt("id"))
+            .add("sender", resultSet.getString("sender"))
+            .add("receiver", resultSet.getString("receiver"))
+            .add("message", resultSet.getString("message"))
+            .add("sentAt", resultSet.getString("sent_at")));
       }
     } catch (SQLException e) {
       e.printStackTrace();

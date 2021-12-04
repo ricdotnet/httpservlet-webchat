@@ -226,7 +226,8 @@ new Vue({
       data.messages.map(m => {
         inbox.messages.push(m)
       })
-      inbox.messages.sort((first, second) => first.id - second.id)
+      // inbox.messages.sort((first, second) => new Date(first.sentAt) - new Date(second.sentAt));
+      inbox.messages.sort((first, second) => first.id - second.id);
     },
     scrollDown() {
       setTimeout(() => {

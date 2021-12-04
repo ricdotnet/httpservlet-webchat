@@ -4,7 +4,7 @@ import {checkSession} from "./auth.js";
 checkSession().then(data => {
   if (data != '401') {
     localStorage.removeItem('token')
-    return window.location.href = '/cw1'
+    return window.location.href = '/cw1/chat'
   }
 
   // redirect();
