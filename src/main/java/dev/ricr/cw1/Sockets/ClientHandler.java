@@ -61,19 +61,17 @@ public class ClientHandler {
    */
   public void sendMessage (JsonObject obj) throws EncodeException, IOException, InvocationTargetException {
     try {
-
-      // TODO: Insert the message into database
+      // check for "message" type and save to the database
       if (obj.getString("type").equals("message"))
         messagesController.saveMessage(obj);
 
+      // get the receiver output stream and reply with the message
       ClientConnection c = connections.get(obj.getString("receiver"));
       c.getSession().getBasicRemote().sendObject(obj);
+
     } catch (NullPointerException e) {
       System.out.println("receiver not logged in yet");
     }
-//      getConnection(obj.getString("receiver"))
-//          .getBasicRemote()
-//          .sendObject(obj);
   }
 
   /**
