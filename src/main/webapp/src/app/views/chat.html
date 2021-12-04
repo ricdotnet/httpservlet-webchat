@@ -6,7 +6,16 @@
 
     <div class="h-screen border-r bg-white border-gray-200 z-10 hidden md:block md:w-1/2 lg:w-1/3">
       <div class="w-full text-center p-5 bg-gray-100 font-bold">
-        Hi {{sender}}, your friends!
+        <div class="w-full flex flex-col justify-center mb-4">
+          <div>
+            <img v-bind:src="'/cw1/avatars/' + sender + '.jpeg'" class="rounded-full" width="80" alt="personal avatar"/>
+            <form onsubmit="event.preventDefault()" v-on:change="sendAvatar()" enctype="multipart/form-data">
+              <input id="avatar" type="file">
+            </form>
+          </div>
+        </div>
+        Hi {{sender}},<br>
+        chat with your friends!
       </div>
       <ul class="w-full text-center">
         <li v-for="friend in friends" v-if="friend.username !== sender"
@@ -57,7 +66,8 @@
       </div>
 
       <div v-if="canMessage" class="border-t border-gray-200">
-        <input v-model="message" v-on:keyup="sendMessage($event)" v-on:focusin="startTyping()" v-on:focusout="stopTyping()"
+        <input v-model="message" v-on:keyup="sendMessage($event)" v-on:focusin="startTyping()"
+               v-on:focusout="stopTyping()"
                class="w-full h-16 px-5 py-3 outline-none bg-opacity-0"
                v-bind:class="{'border-t border-red-500': invalidMessage}" placeholder="Message"/>
         <!-- <button onclick="send()" class="px-5 py-3 bg-green-400 rounded-sm text-white">Send</button> -->

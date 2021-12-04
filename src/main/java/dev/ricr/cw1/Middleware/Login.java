@@ -58,6 +58,9 @@ public class Login {
       statement.setString(2, password);
       ResultSet resultSet = statement.executeQuery();
       if(resultSet.next()) {
+
+        response.put("avatar", resultSet.getString("avatar"));
+
         return true;
       }
     } catch (SQLException e) {

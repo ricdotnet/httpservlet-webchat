@@ -1,5 +1,5 @@
 import {checkSession} from "./auth.js";
-import {httpRequestGet} from "./http.js";
+import {httpRequestGet, httpRequestPost, httpRequestPostMultipart} from "./http.js";
 
 Vue.component('cross-icon', {
   template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -16,6 +16,7 @@ Vue.component('online-icon', {
 new Vue({
   el: '#template',
   data: {
+    avatar: '',
     sender: '',
     receiver: '',
     message: '',
@@ -32,6 +33,7 @@ new Vue({
     this.setReceiver()
 
     this.setInboxes()
+    this.avatar = localStorage.getItem("avatar") || '';
   },
   beforeDestroy() {
     this.ws.close();
@@ -109,7 +111,8 @@ new Vue({
               username: u.username,
               isOnline: true,
               isTyping: false,
-              newMessage: false
+              newMessage: false,
+              avatar: u.avatar
             }
             if (!this.friends.find(f => f.username === u.username))
               this.friends.push(friend);
@@ -122,7 +125,8 @@ new Vue({
             username: data.username,
             isOnline: true,
             isTyping: false,
-            newMessage: false
+            newMessage: false,
+            avatar: data.avatar
           }
           if (!this.friends.find(f => f.username === friend.username))
             this.friends.push(friend)
@@ -234,6 +238,15 @@ new Vue({
         const messagesArea = document.getElementById('messagesArea');
         messagesArea.scrollTop = messagesArea.scrollHeight;
       }, 200)
+    },
+    sendAvatar() {
+      let avatarFile = document.getElementById('avatar').files[0];
+
+      let payload = new FormData();
+      payload.append('title', avatarFile.name);
+      payload.append('file', avatarFile);
+
+      httpRequestPostMultipart('send/avatar', payload);
     }
   }
 })
