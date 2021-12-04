@@ -47,15 +47,16 @@ new Vue({
         this.connectWebsocket()
       })
     },
-    setReceiver(fu) {
-      if (fu !== undefined) {
-        // window.location.href = `?u=${fu}`
-        this.receiver = fu;
+    setReceiver(receiver) {
+      if (receiver !== undefined) {
+        // window.location.href = `${fu}`
+        this.receiver = receiver;
         this.canMessage = true;
-        this.getMessages();
+        this.fetchMessages(receiver).then(() => {
+          this.getMessages();
+        })
         return;
       }
-
     },
     connectWebsocket() {
       this.ws = new WebSocket(`ws://localhost:8080/cw1/chat/${this.sender}`);
@@ -66,7 +67,7 @@ new Vue({
          */
         this.ws.send(JSON.stringify({
           type: 'login',
-          event: 'this is login event',
+          // event: 'this is login event',
           username: this.sender
         }));
 
@@ -82,7 +83,7 @@ new Vue({
       this.ws.onmessage = (e) => {
         let data = JSON.parse(e.data)
         if (data.type === 'message') {
-          console.log(data)
+          // console.log(data)
           this.inboxes.map(i => {
             if (i.user === data.sender) {
               i.messages.push(data);
@@ -218,10 +219,17 @@ new Vue({
       this.canMessage = false;
       this.messagesList = [];
     },
-    async fetchMessages() {
+    async fetchMessages(receiver) {
       // fetch messages here
-      let data = await httpRequestGet("messages/get");
-      console.log(JSON.parse(data))
+      let response = await httpRequestGet(`messages/get/${receiver}`);
+      let data = await response.json();
+      let inbox = this.inboxes.find(inbox => inbox.user === receiver);
+      inbox.messages = [];
+
+      data.messages.map(m => {
+        inbox.messages.push(m)
+      })
+      inbox.messages.sort((first, second) => first.id - second.id)
     }
   }
 })

@@ -23,7 +23,8 @@ export async function httpRequestGet(endpoint) {
     method: 'GET',
     mode: 'cors',
     headers: {
-      'Accept': '*/*'
+      'Accept': '*/*',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     }
   })
 }
