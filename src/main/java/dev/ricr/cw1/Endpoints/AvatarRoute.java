@@ -8,11 +8,12 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.*;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Objects;
 
-@WebServlet(name = "AvatarRoute", value = "/send/avatar")
+@WebServlet(name = "AvatarRoute", value = "/avatar/*")
 @MultipartConfig(
     maxFileSize = 1024 * 1024 * 5 // 5mb
 )
@@ -23,7 +24,27 @@ public class AvatarRoute extends HttpServlet {
 
   @Override
   protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    try {
+      String user = request.getPathInfo().split("/")[1];
+      String avatar = "";
+      try {
+        PreparedStatement statement = DatabaseHandler.doConnect()
+            .prepareStatement("select avatar from users where username = ?");
+        statement.setString(1, user);
+        statement.executeQuery();
+        ResultSet resultSet = statement.getResultSet();
+        if (resultSet.next()) {
+          avatar = resultSet.getString("avatar");
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+//      response.setContentType("text/html");
+//      response.getWriter().print("<img src=\"/cw1/avatars/" + avatar + "\" alt=\"avatar\"/>");
+      response.getWriter().print("/cw1/avatars/"+avatar);
+    } catch (NullPointerException e) {
+      //ignore
+    }
   }
 
   // TODO: Refactor this here
@@ -75,12 +96,15 @@ public class AvatarRoute extends HttpServlet {
     }
 
     databaseStore(fileName, authResponse);
+    out.print("{\"code\":\"200\"," +
+        "\"message\": \"Your avatar was uploaded.\"," +
+        "\"avatar\":\"" + fileName + "\"}");
   }
 
   /**
    * Find avatar extension
    */
-  private String getFileExtension(Part part) {
+  private String getFileExtension (Part part) {
     String[] parts = part.toString().split(",");
     for (String p : parts) {
       if (p.contains("File name")) {
@@ -93,7 +117,7 @@ public class AvatarRoute extends HttpServlet {
   /**
    * DB store helper
    */
-  private void databaseStore(String fileName, String username) {
+  private void databaseStore (String fileName, String username) {
     try {
       PreparedStatement statement = DatabaseHandler.doConnect()
           .prepareStatement("update users set avatar = ? where username = ?");

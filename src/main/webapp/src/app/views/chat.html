@@ -8,7 +8,7 @@
       <div class="w-full text-center p-5 bg-gray-100 font-bold">
         <div class="w-full flex flex-col justify-center mb-4">
           <div>
-            <img v-bind:src="'/cw1/avatars/' + sender + '.jpeg'" class="rounded-full" width="80" alt="personal avatar"/>
+            <img v-bind:src="'avatar'" class="rounded-full" width="80" alt="personal avatar"/>
             <form onsubmit="event.preventDefault()" v-on:change="sendAvatar()" enctype="multipart/form-data">
               <input id="avatar" type="file">
             </form>

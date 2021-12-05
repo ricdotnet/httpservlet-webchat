@@ -16,7 +16,7 @@ Vue.component('online-icon', {
 new Vue({
   el: '#template',
   data: {
-    avatar: '',
+    avatar: '/cw1/avatar/ricdotnet',
     sender: '',
     receiver: '',
     message: '',
@@ -33,7 +33,6 @@ new Vue({
     this.setReceiver()
 
     this.setInboxes()
-    this.avatar = localStorage.getItem("avatar") || '';
   },
   beforeDestroy() {
     this.ws.close();
@@ -239,13 +238,19 @@ new Vue({
         messagesArea.scrollTop = messagesArea.scrollHeight;
       }, 200)
     },
-    sendAvatar() {
+    async sendAvatar() {
       let avatarFile = document.getElementById('avatar').files[0];
 
       let payload = new FormData();
       payload.append('file', avatarFile);
 
-      httpRequestPostMultipart('send/avatar', payload);
+      let response = await httpRequestPostMultipart('avatar', payload);
+      let data = await response.json();
+      if (data.code !== undefined && data.code === '200') {
+        this.avatar = `/cw1/avatars/${data.avatar}`
+      } else {
+        console.log(data.error)
+      }
     }
   }
 })
