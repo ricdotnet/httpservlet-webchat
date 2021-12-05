@@ -243,7 +243,6 @@ new Vue({
       let avatarFile = document.getElementById('avatar').files[0];
 
       let payload = new FormData();
-      payload.append('title', avatarFile.name);
       payload.append('file', avatarFile);
 
       httpRequestPostMultipart('send/avatar', payload);

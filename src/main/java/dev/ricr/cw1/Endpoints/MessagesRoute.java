@@ -31,27 +31,12 @@ public class MessagesRoute extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
     out = response.getWriter();
-    String authHeader = request.getHeader("authorization");
-    String username = "";
+
+    String authResponse = Authentication.authenticate(request);
     String receiver = "";
 
-    if (authHeader == null) {
-      out.print("{\"error\": \"No authorization header present.\"}");
-      return;
-    }
-
-    try {
-      username = Authentication.decodeToken(authHeader.split(" ")[1]).asString();
-    } catch (ArrayIndexOutOfBoundsException e) {
-      out.print("{\"error\": \"No token provided.\"}");
-      return;
-    } catch (NullPointerException e) {
-      out.print("{\"error\": \"Invalid token provided.\"}");
-      return;
-    }
-
-    if (username == null) {
-      out.print("{\"error\": \"Invalid token provided.\"}");
+    if (authResponse.contains("error")) {
+      out.print(authResponse);
       return;
     }
 
@@ -67,7 +52,7 @@ public class MessagesRoute extends HttpServlet {
       return;
     }
 
-    JsonObject res = messagesController.fetchMessages(username, receiver);
+    JsonObject res = messagesController.fetchMessages(authResponse, receiver);
     out.print(res);
   }
 

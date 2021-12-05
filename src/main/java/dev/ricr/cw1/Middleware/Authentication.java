@@ -6,6 +6,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -53,6 +54,37 @@ public class Authentication {
    */
   private static boolean isExpired(long exp) {
     return exp < (new Date().getTime()/1000);
+  }
+
+  /**
+   * Authenticate helper
+   */
+  public static String authenticate(HttpServletRequest request) {
+
+    String authHeader = request.getHeader("authorization");
+    String username = "";
+
+    if (authHeader == null) {
+      return "{\"error\": \"No authorization header present.\"}";
+//      return null;
+    }
+
+    try {
+      username = Authentication.decodeToken(authHeader.split(" ")[1]).asString();
+    } catch (ArrayIndexOutOfBoundsException e) {
+      return "{\"error\": \"No token provided.\"}";
+//      return null;
+    } catch (NullPointerException e) {
+      return "{\"error\": \"Invalid token provided.\"}";
+//      return null;
+    }
+
+    if (username == null) {
+      return "{\"error\": \"Invalid token provided.\"}";
+//      return null;
+    }
+
+    return username;
   }
 
 }
