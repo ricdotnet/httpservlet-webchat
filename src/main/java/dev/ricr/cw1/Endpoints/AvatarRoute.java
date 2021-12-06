@@ -40,7 +40,7 @@ public class AvatarRoute extends HttpServlet {
       }
 //      response.setContentType("text/html");
 //      response.getWriter().print("<img src=\"/cw1/avatars/" + avatar + "\" alt=\"avatar\"/>");
-      response.getWriter().print("/cw1/avatars/"+avatar);
+      response.getWriter().print("{\"avatar\": \"/cw1/avatars/"+avatar+"\"}");
     } catch (NullPointerException e) {
       //ignore
     }

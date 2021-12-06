@@ -25,7 +25,10 @@ new Vue({
   data: {
     avatar: '',
     sender: '',
-    receiver: '',
+    receiver: {
+      username: '',
+      avatar: ''
+    },
     message: '',
     ws: null,
     messagesList: [],
@@ -53,17 +56,19 @@ new Vue({
         this.sender = res.username;
       }).then(() => {
         this.connectWebsocket()
+        this.getMyAvatar()
       })
     },
     setReceiver(receiver) {
       if (receiver !== undefined) {
         // window.location.href = `${fu}`
-        this.receiver = receiver;
+        this.receiver.username = receiver;
         this.canMessage = true;
         this.fetchMessages(receiver).then(() => {
           this.getMessages();
         })
       }
+      this.getReceiverAvatar()
       this.scrollDown();
     },
     connectWebsocket() {
@@ -161,7 +166,7 @@ new Vue({
         let msg = {
           'type': 'message',
           'sender': this.sender,
-          'receiver': this.receiver,
+          'receiver': this.receiver.username,
           'message': this.message,
           'sentAt': new Date(),
         }
@@ -181,13 +186,13 @@ new Vue({
       }
 
       this.invalidMessage = false;
-      document.title = `Chatting with ${this.receiver}`
+      document.title = `Chatting with ${this.receiver.username}`
     },
     startTyping() {
       this.ws.send(JSON.stringify({
         'type': 'isTyping',
         'sender': this.sender,
-        'receiver': this.receiver,
+        'receiver': this.receiver.username,
         'state': true
       }))
     },
@@ -195,7 +200,7 @@ new Vue({
       this.ws.send(JSON.stringify({
         'type': 'isTyping',
         'sender': this.sender,
-        'receiver': this.receiver,
+        'receiver': this.receiver.username,
         'state': false
       }))
     },
@@ -211,7 +216,7 @@ new Vue({
     },
     getMessages() {
       this.inboxes.map(i => {
-        if (i.user === this.receiver) {
+        if (i.user === this.receiver.username) {
           this.messagesList = i.messages;
           this.friends.map(f => {
             if (f.username === i.user) {
@@ -222,7 +227,7 @@ new Vue({
       })
     },
     resetReceiver() {
-      this.receiver = '';
+      this.receiver = {username: '', avatar: ''};
       this.canMessage = false;
       this.messagesList = [];
     },
@@ -259,6 +264,16 @@ new Vue({
         console.log(data.error)
       }
       avatarFile.value = ''; //reset the input after submitting the avatar
+    },
+    async getMyAvatar() {
+      let response = await httpRequestGet(`avatar/${this.sender}`);
+      let data = await response.json();
+      this.avatar = data.avatar;
+    },
+    async getReceiverAvatar() {
+      let response = await httpRequestGet(`avatar/${this.receiver.username}`);
+      let data = await response.json();
+      this.receiver.avatar = data.avatar;
     }
   }
 })

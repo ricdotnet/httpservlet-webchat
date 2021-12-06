@@ -1,6 +1,6 @@
 <div id="template">
 
-  <title>{{ (canMessage) ? 'Chatting with ' + receiver : 'Choose someone to chat.' }}</title>
+  <title>{{ (canMessage) ? 'Chatting with ' + receiver.username : 'Choose someone to chat.' }}</title>
 
   <div class="flex flex-row">
 
@@ -48,10 +48,14 @@
     </div>
 
     <div class="w-full h-screen flex flex-col">
-      <div class="flex flex-row justify-between border-b border-gray-200 px-10 py-5 items-baseline">
-        <div v-if="!receiver">Choose someone to message...</div>
-        <div>{{receiver}} <span v-if="isTyping" class="text-xs ml-2 text-gray-400">is typing....</span></div>
-        <div v-if="receiver" v-on:click="resetReceiver()">
+      <div class="flex flex-row items-center justify-between border-b border-gray-200 px-10 py-2">
+        <div v-if="!receiver.username">Choose someone to message...</div>
+        <div class="flex items-center">
+          <img v-if="receiver.avatar" class="w-11 h-11 rounded-full mr-5" v-bind:src="receiver.avatar"
+               alt="receiver avatar"/>
+          <div>{{receiver.username}} <span v-if="isTyping" class="text-xs ml-2 text-gray-400">is typing....</span></div>
+        </div>
+        <div v-if="receiver.username" v-on:click="resetReceiver()">
           <cross-icon class="cursor-pointer"></cross-icon>
         </div>
       </div>
