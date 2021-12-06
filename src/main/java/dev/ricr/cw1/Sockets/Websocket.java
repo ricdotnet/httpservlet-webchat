@@ -61,6 +61,7 @@ public class Websocket {
   public void onClose (Session session, @PathParam("username") String username) {
 
     clientHandler.removeConnection(username);
+    clientHandler.broadcast();
 
 //    users.removeIf(user -> user.getSession() == session);
 

@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Objects;
 
 @WebServlet(name = "AvatarRoute", value = "/avatar/*")
 @MultipartConfig(
@@ -47,7 +46,6 @@ public class AvatarRoute extends HttpServlet {
     }
   }
 
-  // TODO: Refactor this here
   @Override
   protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

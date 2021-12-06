@@ -105,6 +105,7 @@ new Vue({
         }
 
         if (data.type === 'connect') {
+          this.friends = [];
           data.users.map(u => {
             let friend = {
               username: u.username,
