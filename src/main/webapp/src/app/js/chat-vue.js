@@ -255,7 +255,6 @@ new Vue({
       let data = await response.json();
       if (data.code !== undefined && data.code === '200') {
         this.avatar = `/cw1/avatars/${data.avatar}`
-        console.log(this.avatar)
       } else {
         console.log(data.error)
       }
