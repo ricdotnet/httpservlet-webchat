@@ -13,10 +13,17 @@ Vue.component('online-icon', {
 </svg>`
 });
 
+Vue.component('camera-icon', {
+  template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+    </svg>`
+});
+
 new Vue({
   el: '#template',
   data: {
-    avatar: '/cw1/avatar/ricdotnet',
+    avatar: '',
     sender: '',
     receiver: '',
     message: '',
@@ -84,7 +91,6 @@ new Vue({
       this.ws.onmessage = (e) => {
         let data = JSON.parse(e.data)
         if (data.type === 'message') {
-          // console.log(data)
           this.inboxes.map(i => {
             if (i.user === data.sender) {
               i.messages.push(data);
@@ -240,18 +246,20 @@ new Vue({
       }, 200)
     },
     async sendAvatar() {
-      let avatarFile = document.getElementById('avatar').files[0];
+      let avatarFile = document.getElementById('avatar');
 
       let payload = new FormData();
-      payload.append('file', avatarFile);
+      payload.append('file', avatarFile.files[0]);
 
       let response = await httpRequestPostMultipart('avatar', payload);
       let data = await response.json();
       if (data.code !== undefined && data.code === '200') {
         this.avatar = `/cw1/avatars/${data.avatar}`
+        console.log(this.avatar)
       } else {
         console.log(data.error)
       }
+      avatarFile.value = ''; //reset the input after submitting the avatar
     }
   }
 })

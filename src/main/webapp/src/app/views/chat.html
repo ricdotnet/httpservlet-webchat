@@ -6,11 +6,16 @@
 
     <div class="h-screen border-r bg-white border-gray-200 z-10 hidden md:block md:w-1/2 lg:w-1/3">
       <div class="w-full text-center p-5 bg-gray-100 font-bold">
-        <div class="w-full flex flex-col justify-center mb-4">
-          <div>
-            <img v-bind:src="'avatar'" class="rounded-full" width="80" alt="personal avatar"/>
-            <form onsubmit="event.preventDefault()" v-on:change="sendAvatar()" enctype="multipart/form-data">
-              <input id="avatar" type="file">
+        <div class="w-20 mb-4 relative mx-auto">
+          <img v-bind:src="avatar" class="rounded-full object-cover w-20 h-20" width="80" alt="personal avatar"/>
+          <div class="absolute right-0 bottom-0 rounded-full cursor-pointer focus:outline-none bg-gray-900 p-1
+            hover:text-white transition ease-in-out text-gray-500 h-7">
+            <form onsubmit="event.preventDefault()" enctype="multipart/form-data">
+              <label for="avatar" class="cursor-pointer h-2">
+                <camera-icon></camera-icon>
+              </label>
+
+              <input type="file" class="hidden" id="avatar" v-on:change="sendAvatar()">
             </form>
           </div>
         </div>
