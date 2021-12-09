@@ -14,7 +14,7 @@ CREATE TABLE users (
     email VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    avatar TEXT DEFAULT ('https://avatars.dicebear.com/api/adventurer/httpservlet.svg')
+    avatar TEXT DEFAULT ('httpservlet.svg')
 );
 
 INSERT INTO users (username, password, email) VALUES ('ricardo', '12345', 'ricardo@email.com');
