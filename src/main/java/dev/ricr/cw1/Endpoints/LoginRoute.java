@@ -46,7 +46,14 @@ public class LoginRoute extends HttpServlet {
 
       Map<String, String> res = login.doLogin(response, json).getResponse();
       JsonObjectBuilder jsonResponseBuilder = Json.createObjectBuilder();
-      res.forEach(jsonResponseBuilder::add);
+//      res.forEach(jsonResponseBuilder::add);
+//      res.keySet().forEach(el -> {
+//        jsonResponseBuilder
+//            .add(el, res.get(el));
+//      });
+      for(String line:res.keySet()) {
+        jsonResponseBuilder.add(line, res.get(line));
+      }
       json = jsonResponseBuilder.build();
 
       Http.sendResponse(writer, null, null, json);

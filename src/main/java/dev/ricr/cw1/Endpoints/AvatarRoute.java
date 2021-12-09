@@ -24,7 +24,11 @@ public class AvatarRoute extends HttpServlet {
   @Override
   protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
-      String user = request.getPathInfo().split("/")[1];
+      String[] urlSegments = request.getPathInfo().split("/");
+
+      if (urlSegments.length < 2) return;
+
+      String user = urlSegments[1];
       String avatar = "";
       try {
         PreparedStatement statement = DatabaseHandler.doConnect()
@@ -41,8 +45,8 @@ public class AvatarRoute extends HttpServlet {
 //      response.setContentType("text/html");
 //      response.getWriter().print("<img src=\"/cw1/avatars/" + avatar + "\" alt=\"avatar\"/>");
       response.getWriter().print("{\"avatar\": \"/cw1/avatars/"+avatar+"\"}");
-    } catch (NullPointerException e) {
-      //ignore
+    } catch (ArrayIndexOutOfBoundsException e) {
+      System.out.println("Tried to get a non-existing avatar.");
     }
   }
 
