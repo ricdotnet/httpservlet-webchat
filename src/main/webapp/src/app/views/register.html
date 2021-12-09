@@ -1,1 +1,18 @@
-register page yay!!!
+<div class="h-full flex flex-wrap justify-center content-center">
+  <div class="w-md p-4 bg-gray-800 rounded-sm text-center space-y-3">
+    <h1 class="text-2xl text-white">Register</h1>
+    <form class="space-y-3" onsubmit="return doRegister(event)">
+      <input type="text" placeholder="username" class="w-full p-3" id="username">
+      <input type="text" placeholder="email" class="w-full p-3" id="email">
+      <input type="password" placeholder="password" class="w-full p-3" id="password">
+      <div class="space-x-3">
+        <button class="px-3 py-2 bg-indigo-500 text-white">Register</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="text-white p-3 absolute top-5 left-5 hidden border" id="message"></div>
+
+<!-- scripts and styles -->
+<script src="/cw1/src/app/js/register.js" type="module" defer></script>
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
