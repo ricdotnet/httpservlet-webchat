@@ -2,13 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Cool Chat</title>
 
   <script src="/cw1/src/app/js/index.js" type="module"></script>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <script type="text/javascript">
+    function goToLogin() {
+      location.href = '/cw1/login';
+    }
+  </script>
 </head>
 <body>
 
-  home page yay
+  <div class="h-screen flex flex-col items-center justify-center">
+    <h1 class="text-6xl mb-3">Hello There Fren!</h1>
+    <span class="text-2xl mb-10">Chat with other frens or new people here.</span>
+    <img class="w-2/3 rounded-md shadow mb-10" src="/cw1/static/homebg.png" alt="home background"/>
+    <div class="cursor-pointer px-5 py-2 bg-indigo-700 text-white rounded-sm shadow text-xl"
+    onclick="goToLogin()">Start Chatting</div>
+  </div>
 
 </body>
 </html>
