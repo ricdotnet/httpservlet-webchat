@@ -10,11 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * TODO: add more validation. If user is new then check for their username size, email type and password length?
- * This can also be done in the front end but because endpoints can be found easily then I need extra checks in the backend too.
- */
-
 public class Register {
 
   private String responseMessage;

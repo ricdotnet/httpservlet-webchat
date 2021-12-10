@@ -23,19 +23,19 @@ window.doRegister = async function doRegister(event) {
 
   console.log(data);
 
-  if (!data.token) {
+  if (data.message === 'account registered') {
+    localStorage.setItem('token', data.token);
+    responseBox.innerText = 'Account registered. You can now login.';
+    responseBox.classList.remove('hidden');
+    responseBox.classList.add('bg-green-400', 'border-green-800');
+    removeToast();
+    redirect();
+  } else {
     let msg = data.message.charAt(0).toUpperCase() + data.message.slice(1);
     responseBox.innerText = msg + '. Please try again.';
     responseBox.classList.remove('hidden');
     responseBox.classList.add('bg-red-400', 'border-red-800');
     removeToast();
-  } else {
-    localStorage.setItem('token', data.token);
-    responseBox.innerText = 'Logged in. Redirecting...';
-    responseBox.classList.remove('hidden');
-    responseBox.classList.add('bg-green-400', 'border-green-800');
-    removeToast();
-    redirect();
   }
 }
 
@@ -47,7 +47,7 @@ function removeToast() {
 
 function redirect() {
   setTimeout(() => {
-    window.location.replace('/cw1/chat');
+    window.location.replace('/cw1/login');
   }, 3000)
 }
 

@@ -274,6 +274,10 @@ new Vue({
       let response = await httpRequestGet(`avatar/${this.receiver.username}`);
       let data = await response.json();
       this.receiver.avatar = data.avatar;
+    },
+    doLogout() {
+      localStorage.removeItem('token');
+      location.href = '/cw1'
     }
   }
 })
