@@ -1,5 +1,6 @@
 package dev.ricr.cw1.Sockets;
 
+import dev.ricr.cw1.Utils.Logger;
 import javax.json.Json;
 import javax.json.JsonException;
 import javax.json.JsonObject;

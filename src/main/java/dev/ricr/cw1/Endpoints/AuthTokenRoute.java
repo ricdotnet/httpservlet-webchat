@@ -3,6 +3,7 @@ package dev.ricr.cw1.Endpoints;
 import dev.ricr.cw1.Controller.UsersController;
 import dev.ricr.cw1.Middleware.Authentication;
 import dev.ricr.cw1.Utils.Http;
+import dev.ricr.cw1.Utils.Logger;
 
 import javax.json.*;
 import javax.servlet.*;
@@ -41,6 +42,9 @@ public class AuthTokenRoute extends HttpServlet {
       String body = request.getReader().lines().collect(Collectors.joining());
       data = Json.createReader(new StringReader(body));
       json = data.readObject();
+
+      // log the body
+      Logger.SaveLog(json);
 
       String username;
       try {

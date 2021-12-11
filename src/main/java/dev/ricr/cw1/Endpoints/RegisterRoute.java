@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import dev.ricr.cw1.Middleware.Register;
 import dev.ricr.cw1.Utils.Http;
+import dev.ricr.cw1.Utils.Logger;
 
 @WebServlet(name = "auth/register", value = "/auth/register")
 public class RegisterRoute extends HttpServlet {
@@ -42,6 +43,9 @@ public class RegisterRoute extends HttpServlet {
       String body = request.getReader().lines().collect(Collectors.joining());
       data = Json.createReader(new StringReader(body));
       json = data.readObject();
+
+      // log the body
+      Logger.SaveLog(json);
 
       String res = register.doRegister(response, json).getResponse();
       json = Json.createObjectBuilder()

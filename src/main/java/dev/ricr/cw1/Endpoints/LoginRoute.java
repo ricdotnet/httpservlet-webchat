@@ -12,6 +12,7 @@ import javax.json.*;
 
 import dev.ricr.cw1.Middleware.Login;
 import dev.ricr.cw1.Utils.Http;
+import dev.ricr.cw1.Utils.Logger;
 
 @WebServlet(name = "auth/login", value = "/auth/login")
 public class LoginRoute extends HttpServlet {
@@ -44,6 +45,9 @@ public class LoginRoute extends HttpServlet {
       data = Json.createReader(new StringReader(body));
       json = data.readObject();
 
+      // log the body
+      Logger.SaveLog(json);
+      
       Map<String, String> res = login.doLogin(response, json).getResponse();
       JsonObjectBuilder jsonResponseBuilder = Json.createObjectBuilder();
 //      res.forEach(jsonResponseBuilder::add);
