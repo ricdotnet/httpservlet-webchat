@@ -131,5 +131,21 @@ public class AvatarRoute extends HttpServlet {
     }
   }
 
+  /**
+   * Write File
+   */
+//  private void writeFile(InputStream fileIn, HttpServletRequest request, Part part, String fileName, ) throws IOException, ServletException {
+//    // TODO: refactor this bit of code
+//    fileIn = request.getPart(part.getName()).getInputStream();
+//    int size = fileIn.available();
+//    byte[] file = new byte[size];
+//    fileIn.read(file);
+//    fileName = authResponse + "." + extension;
+//    fileOut = new FileOutputStream(savePath + File.separator + fileName);
+//    fileOut.write(file);
+//    fileIn.close();
+//    fileOut.close();
+//  }
+
 
 }
