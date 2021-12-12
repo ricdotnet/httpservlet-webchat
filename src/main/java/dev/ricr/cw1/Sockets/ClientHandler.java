@@ -1,6 +1,7 @@
 package dev.ricr.cw1.Sockets;
 
 import dev.ricr.cw1.Controller.MessagesController;
+import dev.ricr.cw1.Utils.Logger;
 
 import javax.json.*;
 import javax.websocket.EncodeException;
@@ -61,9 +62,12 @@ public class ClientHandler {
    */
   public void sendMessage (JsonObject obj) throws EncodeException, IOException, InvocationTargetException {
     try {
+
       // check for "message" type and save to the database
-      if (obj.getString("type").equals("message"))
+      if (obj.getString("type").equals("message")) {
         messagesController.saveMessage(obj);
+        Logger.SaveLog(obj);
+      }
 
       // get the receiver output stream and reply with the message
       ClientConnection c = connections.get(obj.getString("receiver"));
