@@ -85,7 +85,6 @@ public class ClientHandler {
    */
   public void broadcast (JsonObject... object) {
     // this method gets an JsonObject(optional) and if there is no object passed it will run the first event
-    // TODO: Refactor and make it work for the various broadcast events
     if (object.length == 0) {
       Map<String, String> config = new HashMap<>();
       JsonBuilderFactory factory = Json.createBuilderFactory(config);
